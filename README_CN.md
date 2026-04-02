@@ -13,7 +13,7 @@
 ### 安装指南 🛠️
 1. 以 Zip 格式下载或直接克隆本仓库到你的电脑：
    ```bash
-   git clone https://github.com/your-username/Universal-Subtitle-Translator.git
+   git clone https://github.com/muwe/ai_subtitle_translater.git
    ```
 2. 打开 Google Chrome 或其他 Chromium 内核浏览器，在地址栏输入 `chrome://extensions/`。
 3. 开启页面右上角的 **“开发者模式” (Developer mode)** 。

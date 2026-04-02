@@ -13,7 +13,7 @@ A powerful, open-source video subtitle translator extension for Chrome. It inter
 ### Installation 🛠️
 1. Download or clone this repository to your local machine:
    ```bash
-   git clone https://github.com/your-username/Universal-Subtitle-Translator.git
+   git clone https://github.com/muwe/ai_subtitle_translater.git
    ```
 2. Open Google Chrome and go to `chrome://extensions/`.
 3. Toggle on **Developer mode** in the top-right corner.
