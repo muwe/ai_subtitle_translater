@@ -1,0 +1,31 @@
+# Node dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Build artifacts and extension packaging
+*.crx
+*.pem
+*.zip
+dist/
+build/
+
+# IDE and Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment variables
+.env
+.env.local
+
+# Python scripts/logs from old testing
+venv/
+*.pyc
+__pycache__/
+playwright_profile/

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Subtitle Translator</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 300px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      padding: 16px;
+      background: #1a1a2e;
+      color: #e0e0e0;
+    }
+    h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    h3::before { content: '🌐'; font-size: 18px; }
+
+    .section {
+      background: rgba(255,255,255,0.06);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #888;
+      margin-bottom: 8px;
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .toggle-row .toggle-label {
+      font-size: 13px;
+      color: #ccc;
+    }
+    .switch {
+      position: relative;
+      width: 40px;
+      height: 22px;
+    }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #444;
+      border-radius: 22px;
+      transition: 0.3s;
+    }
+    .slider::before {
+      content: '';
+      position: absolute;
+      height: 16px; width: 16px;
+      left: 3px; bottom: 3px;
+      background: white;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+    .switch input:checked + .slider { background: #4f7df9; }
+    .switch input:checked + .slider::before { transform: translateX(18px); }
+
+    select {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #333;
+      background: #2a2a3e;
+      color: #e0e0e0;
+      font-size: 13px;
+      cursor: pointer;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23888' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+    }
+    select:focus { border-color: #4f7df9; }
+
+    .provider-list { display: flex; flex-direction: column; gap: 6px; }
+    .provider-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .provider-item:hover { background: rgba(255,255,255,0.08); }
+    .provider-item input[type=radio] { display: none; }
+    .provider-item.selected { background: rgba(79, 125, 249, 0.15); }
+    .radio-dot {
+      width: 16px; height: 16px;
+      border: 2px solid #555;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: border-color 0.2s;
+    }
+    .provider-item.selected .radio-dot { border-color: #4f7df9; }
+    .radio-dot::after {
+      content: '';
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #4f7df9;
+      transform: scale(0);
+      transition: transform 0.2s;
+    }
+    .provider-item.selected .radio-dot::after { transform: scale(1); }
+    .provider-info { flex: 1; }
+    .provider-name { font-size: 13px; color: #e0e0e0; font-weight: 500; }
+    .provider-desc { font-size: 10px; color: #888; margin-top: 2px; }
+
+    .status {
+      font-size: 11px;
+      color: #888;
+      text-align: center;
+      padding-top: 4px;
+    }
+    .status-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 4px;
+      background: #4caf50;
+    }
+  </style>
+</head>
+<body>
+  <h3>Universal Subtitle Translator</h3>
+
+  <div class="section">
+    <div class="section-title">Global Settings</div>
+    <div class="toggle-row">
+      <span class="toggle-label">Enable Translation</span>
+      <label class="switch">
+        <input type="checkbox" id="enableToggle">
+        <span class="slider"></span>
+      </label>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Display Mode</div>
+    <div class="toggle-row">
+      <span class="toggle-label">Bilingual subtitles</span>
+      <label class="switch">
+        <input type="checkbox" id="bilingualToggle">
+        <span class="slider"></span>
+      </label>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Target Language</div>
+    <select id="targetLang">
+      <option value="zh-CN">🇨🇳 Chinese (Simplified)</option>
+      <option value="zh-TW">🇹🇼 Chinese (Traditional)</option>
+      <option value="ja">🇯🇵 Japanese</option>
+      <option value="ko">🇰🇷 Korean</option>
+      <option value="es">🇪🇸 Spanish</option>
+      <option value="fr">🇫🇷 French</option>
+      <option value="de">🇩🇪 German</option>
+      <option value="pt">🇧🇷 Portuguese</option>
+      <option value="ru">🇷🇺 Russian</option>
+      <option value="ar">🇸🇦 Arabic</option>
+      <option value="hi">🇮🇳 Hindi</option>
+      <option value="th">🇹🇭 Thai</option>
+      <option value="vi">🇻🇳 Vietnamese</option>
+      <option value="id">🇮🇩 Indonesian</option>
+      <option value="it">🇮🇹 Italian</option>
+      <option value="tr">🇹🇷 Turkish</option>
+    </select>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Translation Engine</div>
+    <div class="provider-list" id="providerList">
+      <label class="provider-item" data-provider="0">
+        <input type="radio" name="provider" value="0">
+        <span class="radio-dot"></span>
+        <div class="provider-info">
+          <div class="provider-name">Google Translate</div>
+          <div class="provider-desc">Best quality, may be rate-limited</div>
+        </div>
+      </label>
+      <label class="provider-item" data-provider="1">
+        <input type="radio" name="provider" value="1">
+        <span class="radio-dot"></span>
+        <div class="provider-info">
+          <div class="provider-name">Microsoft Bing</div>
+          <div class="provider-desc">Stable & reliable, great quality</div>
+        </div>
+      </label>
+      <label class="provider-item" data-provider="2">
+        <input type="radio" name="provider" value="2">
+        <span class="radio-dot"></span>
+        <div class="provider-info">
+          <div class="provider-name">MyMemory</div>
+          <div class="provider-desc">Free 5000 chars/day</div>
+        </div>
+      </label>
+      <label class="provider-item" data-provider="3">
+        <input type="radio" name="provider" value="3">
+        <span class="radio-dot"></span>
+        <div class="provider-info">
+          <div class="provider-name">Lingva</div>
+          <div class="provider-desc">Google Translate mirror</div>
+        </div>
+      </label>
+    </div>
+  </div>
+
+  <div class="status" id="statusText">
+    <span class="status-dot"></span>Ready · Auto-fallback on failure
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
